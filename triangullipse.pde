@@ -1,16 +1,28 @@
+float x, y, w, rr, sinRad60;
+int factor = 1;
+float xo, yo;
+
+int r;
 
 void setup()
 {
-  size(600,600);
+  size(900,900);
   background(0);
   noStroke();
   smooth();
   
-  float x, y, w;
   x = width/2;
   y = height/2 + height/8;
   w = min(width/2,height/2);
-  triDots(x,y,w);
+  r = 0;
+  sinRad60 = sin(radians(60));
+  
+  //these modify the translation in triDots()
+  //need to make a loop of these every r%360 in draw()
+  xo = 0; //x; //x/2; //0;
+  yo = 0; //y; //y/2; //0;
+
+  //triDots(x,y,w);
 
   //up
   //triangle(-d2, h3, 0, h3-h, d2, h3);
@@ -21,32 +33,43 @@ void setup()
 //frameRate(15);
 }
 
-void triDots(float x, float y, float w)
+void draw()
 {
-  float diam, d2, h, h3, h2;
+  background(0);
+  triDots(x, y, w, radians(r-- % 360));
+}
+
+void triDots(float x, float y, float w, float r)
+{
+  float diam, d2, h, h3, h2, w2;
   int opq = 22;
 
   diam = w;
   d2 = diam/2;
-    
-  h = sin(radians(60)) * diam;
+  w2 = diam+d2;
+  
+  h = sinRad60 * diam;
   h3 = h/3;
   h2 = h/2;
-  //translate(x,y);
-  //if (reps < 25) reps++;
+
+  pushMatrix();
+  translate(x,y);
+  rotate(r);
   fill(255,0,0,opq);
-  ellipse(x-d2,y+h3,diam+d2,diam+d2);
+  ellipse(d2, h3, w2, w2);
   
   fill(0,255,0,opq);
-  ellipse(x,y+h3-h,diam+d2,diam+d2);
+  ellipse(0,h3-h, w2, w2);
   
   fill(0,0,255,opq);
-  ellipse(x+d2, y+h3, diam+d2, diam+d2);
+  ellipse(d2, h3, w2, w2);
 
   if (diam > 5)
   {
-    triDots(x-d2,y+h3,d2);
-    triDots(x,y+h3-h,d2);
-    triDots(x+d2,y+h3,d2);
+    float rf = r*factor;
+    triDots(xo-d2, yo+h3, d2, rf);
+    triDots(xo, yo+h3-h, d2, rf);
+    triDots(xo+d2, yo+h3, d2, rf);
   }
+  popMatrix();
 }
