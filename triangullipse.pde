@@ -36,7 +36,13 @@ void setup()
 void draw()
 {
   background(0);
-  triDots(x, y, w, radians(r-- % 360));
+  rr = abs(radians(r-- % 360));
+  triDots(x, y, w, rr);
+  if(rr <= PI)
+    xo = yo = rr / PI;
+  else if (rr <= TWO_PI)
+    xo = yo = 2 - rr / PI;
+
 }
 
 void triDots(float x, float y, float w, float r)
@@ -67,9 +73,11 @@ void triDots(float x, float y, float w, float r)
   if (diam > 5)
   {
     float rf = r*factor;
-    triDots(xo-d2, yo+h3, d2, rf);
-    triDots(xo, yo+h3-h, d2, rf);
-    triDots(xo+d2, yo+h3, d2, rf);
+    float xx = x * xo;
+    float yy = y * yo;
+    triDots(xx-d2, yy+h3, d2, rf);
+    triDots(xx, yy+h3-h, d2, rf);
+    triDots(xx+d2, yy+h3, d2, rf);
   }
   popMatrix();
 }
