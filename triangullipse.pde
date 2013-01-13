@@ -1,13 +1,14 @@
 float x, y, w, rr, sinRad60;
-int factor = -1;
+int factor = 1;
 float xo, yo;
 int opq = 22;
-int spin = -1;
+int spin = 1;
 int r;
 
 void setup()
 {
-  size(1280, 740);
+  frameRate(24);
+  size(1200, 600);
   background(0);
   noStroke();
   smooth();
@@ -44,8 +45,11 @@ void draw()
     xo = yo = rr / PI;
   else if (rr < TWO_PI)
     xo = yo = 2 - rr / PI;
-  /*if (rr % TWO_PI == 0)
-    spin *= -1;*/
+  if (rr % TWO_PI == 0)
+  {
+    //spin *= -1;
+    factor *= -1;
+  }
 }
 
 void triDots(float x, float y, float w, float r)
@@ -63,13 +67,13 @@ void triDots(float x, float y, float w, float r)
   pushMatrix();
   translate(x, y);
   rotate(r);
-  fill(255, 0, 0, opq);
-  ellipse(d2, h3, w2, w2);
+  fill(255, 0, 127, opq);
+  ellipse(-d2, h3, w2, w2);
 
   fill(0, 255, 0, opq);
   ellipse(0, h3-h, w2, w2);
 
-  fill(0, 0, 255, opq);
+  fill(127, 0, 255, opq);
   ellipse(d2, h3, w2, w2);
 
   if (diam > 5)
