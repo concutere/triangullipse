@@ -40,7 +40,7 @@ void draw()
   background(0);
   r = r + spin;
   rr = abs(radians(r % 360));
-  triDots(x, y, w, rr);
+  quadDots(x, y, w, rr);
   if (rr < PI)
     xo = yo = rr / PI;
   else if (rr < TWO_PI)
@@ -88,3 +88,80 @@ void triDots(float x, float y, float w, float r)
   popMatrix();
 }
 
+void quadDots(float x, float y, float w, float r)
+{
+  float diam, d2, h, h3, h2, w2;
+
+  diam = w;
+  d2 = diam/2;
+  w2 = diam+d2;
+
+  h = sinRad60 * diam;
+  h3 = h/3;
+  h2 = h/2;
+
+  pushMatrix();
+  translate(x, y);
+  rotate(r);
+  fill(255, 0, 127, opq);
+  ellipse(-w2, -w2, w2, w2);
+
+  fill(0, 255, 0, opq);
+  ellipse(-w2, w2, w2, w2);
+
+  fill(127, 0, 255, opq);
+  ellipse(w2, -w2, w2, w2);
+
+  fill(255, opq);
+  ellipse(w2, w2, w2, w2);
+
+  if (diam > 5)
+  {
+    float rf = r*factor;
+    float xx = x * xo;
+    float yy = y * yo;
+    quadDots(xx, yy, d2, rf);
+    quadDots(xx+w2, yy, d2, rf);
+    quadDots(xx, yy+w2, d2, rf);
+    quadDots(xx+w2, yy+w2, d2, rf);
+  }
+  popMatrix();
+}
+
+void quintDots(float x, float y, float w, float r)
+{
+  float diam, d2, w2;
+
+  diam = w;
+  d2 = diam/2;
+  w2 = diam+d2;
+
+  pushMatrix();
+  translate(x, y);
+  rotate(r);
+  
+  fill(255, 0, 127, opq);
+  ellipse(-w2, -w2, w2, w2);
+
+  fill(0, 255, 0, opq);
+  ellipse(-w2, w2, w2, w2);
+
+  fill(127, 0, 255, opq);
+  ellipse(w2, -w2, w2, w2);
+
+  fill(255, opq);
+  ellipse(w2, w2, w2, w2);
+
+  if (diam > 5)
+  {
+    float rf = r*factor;
+    float xx = x * xo;
+    float yy = y * yo;
+    quintDots(xx, yy, d2, rf);
+    quintDots(xx+w2, yy, d2, rf);
+    quintDots(xx, yy+w2, d2, rf);
+    quintDots(xx+w2, yy+w2, d2, rf);
+    quintDots(xx+w2, yy+w2, d2, rf);
+  }
+  popMatrix();
+}
